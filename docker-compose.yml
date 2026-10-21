@@ -1,0 +1,31 @@
+services:
+  web:
+    build: ./src
+    container_name: app_hola_mundo
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=usuario
+      - DB_PASSWORD=clave
+      - DB_NAME=holamundo_db
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=holamundo_db
+      - MYSQL_USER=usuario
+      - MYSQL_PASSWORD=clave
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+
+volumes:
+  mysql_data:
